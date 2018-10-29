@@ -1,0 +1,48 @@
+
+<script type="text/javascript">
+
+    jQuery(window).ready(function(){
+        jQuery(".files").click(function(){
+            jQuery.getJSON('estados-cidades.json',function (data) {
+                var items = [];
+                var options = '<option value="">Selecione um Estado...</option>';
+                jQuery.each(data,function (key,val) {
+                    options += '<option value="' + val.nome + '">' + val.nome + '</option>';
+                });
+                jQuery("#estados").html(options);
+                jQuery("#estados").change(function () {
+                    var options_cidades = '<option value="">Selecione uma Cidade...</option>';
+                    var str = "";
+                    jQuery('#estados option:selected').each(function () {
+                        str += jQuery(this).text();
+                    });
+                    jQuery.each(data, function (key, val) {
+                        if(val.nome == str) {
+                            jQuery.each(val.cidades, function (key_city, val_city) {
+                                options_cidades += '<option value="' + val_city + '">' + val_city + '</option>';
+                            });
+                        }
+                    });
+                    jQuery("#cidades").html(options_cidades);
+                }).change();
+            });
+        });
+    });
+
+</script>
+
+
+
+
+
+<form>
+
+    <!-- Estado -->
+    <select id="estados">
+        <option value=""></option>
+    </select>
+
+    <select id="cidades">
+    </select>
+
+</form>
